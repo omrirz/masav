@@ -1,0 +1,19 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Editors
+.vscode
+.idea
+
+# Venv
+venv
+
+# Dist
+dist
+build
+*.egg-info
+
+# Tests
+.tox
+.pytest_cache
