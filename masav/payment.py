@@ -224,8 +224,8 @@ class MasavPayingInstitute:
         payment_sum_fraction = f"{payments_sum % 1:2.02f}"[2:]
         footer = (
             f"5{self.institute_code}{coin}{payment_date}"
-            f"{0}{serial_number}{int(payments_sum):013d}{payment_sum_fraction}{'0' * 15}"
-            f"{int(number_of_payments):07d}{'0' * 7}"
+            f"{0}{serial_number}{int(payments_sum):013d}{payment_sum_fraction}"
+            f"{'0' * 15}{int(number_of_payments):07d}{'0' * 7}"
             f"{' ' * 63}{NEWLINE}"
         ).encode(ENCODING)
         return footer
