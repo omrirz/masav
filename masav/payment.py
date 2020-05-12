@@ -54,14 +54,14 @@ class MasavPaymentDetails:
         payed_for_until: YYMM = "0000",
     ):
         self.amount: Union[float, int] = amount
-        self.bank_number: str = f"{int(bank_number):02d}"
-        self.branch_number: str = f"{int(branch_number):03d}"
-        self.account_number: str = f"{int(account_number):09d}"
-        self.payee_id: str = f"{int(payee_id):09d}"
-        self.payee_name: str = f"{payee_name:>16}"
-        self.payee_number: str = f"{int(payee_number):020d}"
-        self.payed_for_from: fromYYMM = _normalize_date(payed_for_from)
-        self.payed_for_until: toYYMM = _normalize_date(payed_for_until)
+        self.bank_number: str = f"{int(str(bank_number)[:2]):02d}"
+        self.branch_number: str = f"{int(str(branch_number)[:3]):03d}"
+        self.account_number: str = f"{int(str(account_number)[:9]):09d}"
+        self.payee_id: str = f"{int(str(payee_id)[:9]):09d}"
+        self.payee_name: str = f"{payee_name[:16]:>16}"
+        self.payee_number: str = f"{int(str(payee_number)[:20]):020d}"
+        self.payed_for_from: YYMM = _normalize_date(payed_for_from, format="YYMM")
+        self.payed_for_until: YYMM = _normalize_date(payed_for_until, format="YYMM")
 
 
 class MasavPayingInstitute:
@@ -71,9 +71,9 @@ class MasavPayingInstitute:
         institute_name: Union[int, str],
         sending_institute_code: Union[int, str],
     ):
-        institute_code = f"{int(institute_code):08d}"
+        institute_code = f"{int(str(institute_code)[:8]):08d}"
         institute_name = f"{str(institute_name)[:30]:>30}"
-        sending_institute_code = f"{int(sending_institute_code):05d}"
+        sending_institute_code = f"{int(str(sending_institute_code)[:5]):05d}"
         if len(institute_code) > 8:
             raise MasavPaymentError(
                 "institute_code must be an integer with 8 digits at most."
