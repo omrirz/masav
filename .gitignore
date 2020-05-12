@@ -19,3 +19,4 @@ build
 # Tests
 .tox
 .pytest_cache
+tests/payment_file_generated_by_test.bin
