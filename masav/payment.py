@@ -135,8 +135,8 @@ class MasavPayingInstitute:
                 "payment_date must be a date.\n"
                 "Pass in a string in format YYMMDD or datetime.datetime object"
             )
-        serial_number = f"{int(serial_number):03d}"
-        coin = f"{int(coin):02d}"
+        serial_number = f"{int(str(serial_number)[:3]):03d}"
+        coin = f"{int(str(coin)[:2]):02d}"
         return file, payment_date, creation_date, serial_number, coin
 
     def _build_payment_data(

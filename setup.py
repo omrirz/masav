@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="masav",
-    version="0.0.0",
+    version="0.0.1",
     author="Omri Rozenzaft",
     author_email="omrirz@gmail.com",
     description="Python API for Israeli Masav payments",
