@@ -19,7 +19,7 @@ from masav import MasavPayingInstitute, MasavPaymentDetails
 
 institute = MasavPayingInstitute(
     institute_code=12345678,
-    institute_name="PPPPPPPPPPP ISRAEL LTD.",
+    institute_name="Company ISRAEL LTD.",
     sending_institute_code=12345
     )
 
