@@ -16,8 +16,7 @@ from pathlib import Path
 from typing import Tuple, List, Union, Optional
 
 YYMMDD = Union[str, datetime]
-fromYYMM = Union[str, datetime]
-toYYMM = Union[str, datetime]
+YYMM = Union[str, datetime]
 PathLike = Union[Path, str]
 PaymentLine = bytes
 MasavFileLine = bytes
@@ -27,9 +26,12 @@ NEWLINE = "\r\n"
 ENCODING = "ascii"
 
 
-def _normalize_date(date):
+def _normalize_date(date: Union[YYMMDD, YYMM, datetime], format: str = "YYMMDD"):
     if isinstance(date, datetime):
-        return date.strftime("%y%m%d")
+        if format == "YYMMDD":
+            return date.strftime("%y%m%d")
+        else:
+            return date.strftime("%y%m")
     else:
         return date
 
@@ -48,8 +50,8 @@ class MasavPaymentDetails:
         payee_id: Union[int, str],
         payee_name: str,
         payee_number: Union[int, str],
-        payed_for_from: fromYYMM = "0000",
-        payed_for_until: toYYMM = "0000",
+        payed_for_from: YYMM = "0000",
+        payed_for_until: YYMM = "0000",
     ):
         self.amount: Union[float, int] = amount
         self.bank_number: str = f"{int(bank_number):02d}"
@@ -120,8 +122,8 @@ class MasavPayingInstitute:
 
         if isinstance(file, str):
             file = Path(file)
-        creation_date = _normalize_date(creation_date)
-        payment_date = _normalize_date(payment_date)
+        creation_date = _normalize_date(creation_date, format="YYMMDD")
+        payment_date = _normalize_date(payment_date, format="YYMMDD")
 
         if len(creation_date) != 6:
             raise MasavPaymentError(
