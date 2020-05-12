@@ -19,4 +19,5 @@ build
 # Tests
 .tox
 .pytest_cache
+.coverage
 tests/payment_file_generated_by_test.bin
