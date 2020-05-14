@@ -45,12 +45,12 @@ payee_details_2 = MasavPaymentDetails(
 
 payments_list = [payee_details_1, payee_details_2]
 
-file = "data/payment_test.bin"
+file = "tests/payment_file_generated_by_test.bin"
 institute.create_payment_file(
         file=file,
         payments_list=payments_list,
         payment_date="200507",
-        serial_number=566,
+        serial_number=404,
         creation_date="200507"
     )
 ```
