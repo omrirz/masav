@@ -1,6 +1,7 @@
 # Python API for Israeli Masav payments
 
 ## Install
+
 ```console
 pip install masav
 ```
@@ -8,6 +9,7 @@ pip install masav
 ## Usage
 
 ### from JSON
+
 ```python
 # TODO
 ```
@@ -55,15 +57,16 @@ institute.create_payment_file(
     )
 ```
 
+## Development
 
-# Development
 ```console
 git clone https://github.com/omrirz/masav.git
 cd masav
 pip install -r requirements.txt
 ```
 
-# Test
+## Test
+
 ```console
 tox
 ```
