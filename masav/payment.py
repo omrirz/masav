@@ -8,7 +8,7 @@ https://www.masav.co.il/media/2001/hebrew.pdf
 Note: Most of the inputs to the ctor and to create_payment_file are Union[int, str].
 This is because there are many fields such as payee_id that can have leading zeros.
 Either way we cast them to str and pad them with leading zeros according to the spec.
-The rest of the field are dates in format of YYMMDD or YYMM ot datetime.datetime.
+The rest of the field are dates in format of YYMMDD or YYMM or datetime.datetime.
 """
 
 from datetime import datetime
