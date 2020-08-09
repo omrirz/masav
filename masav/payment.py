@@ -26,9 +26,9 @@ NEWLINE = "\r\n"
 ENCODING = "ascii"
 
 
-def _normalize_date(date: Union[YYMMDD, YYMM, datetime], format: str = "YYMMDD"):
+def _normalize_date(date: Union[YYMMDD, YYMM, datetime], fmt: str = "YYMMDD"):
     if isinstance(date, datetime):
-        if format == "YYMMDD":
+        if fmt == "YYMMDD":
             return date.strftime("%y%m%d")
         else:
             return date.strftime("%y%m")
@@ -60,8 +60,8 @@ class MasavPaymentDetails:
         self.payee_id: str = f"{int(str(payee_id)[:9]):09d}"
         self.payee_name: str = f"{payee_name[:16]:>16}"
         self.payee_number: str = f"{int(str(payee_number)[:20]):020d}"
-        self.payed_for_from: YYMM = _normalize_date(payed_for_from, format="YYMM")
-        self.payed_for_until: YYMM = _normalize_date(payed_for_until, format="YYMM")
+        self.payed_for_from: YYMM = _normalize_date(payed_for_from, fmt="YYMM")
+        self.payed_for_until: YYMM = _normalize_date(payed_for_until, fmt="YYMM")
 
 
 class MasavPayingInstitute:
@@ -122,8 +122,8 @@ class MasavPayingInstitute:
 
         if isinstance(file, str):
             file = Path(file)
-        creation_date = _normalize_date(creation_date, format="YYMMDD")
-        payment_date = _normalize_date(payment_date, format="YYMMDD")
+        creation_date = _normalize_date(creation_date, fmt="YYMMDD")
+        payment_date = _normalize_date(payment_date, fmt="YYMMDD")
 
         if len(creation_date) != 6:
             raise MasavPaymentError(
