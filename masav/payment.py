@@ -14,6 +14,7 @@ The rest of the field are dates in format of YYMMDD or YYMM or datetime.datetime
 from datetime import datetime
 from pathlib import Path
 from typing import Tuple, List, Union, Optional
+from functools import lru_cache
 
 YYMMDD = Union[str, datetime]
 YYMM = Union[str, datetime]
@@ -177,6 +178,7 @@ class MasavPayingInstitute:
             for line in file_content:
                 f.write(line)
 
+    @lru_cache()
     def _build_header(
         self, creation_date: YYMMDD, payment_date: YYMMDD, serial_number: str, coin: str
     ) -> MasavFileLine:
@@ -213,6 +215,7 @@ class MasavPayingInstitute:
 
         return payload, payments_sum, number_of_payments
 
+    @lru_cache()
     def _build_footer(
         self,
         payment_date: YYMMDD,
@@ -231,6 +234,7 @@ class MasavPayingInstitute:
         return footer
 
     @staticmethod
+    @lru_cache()
     def _build_file_last_line() -> bytes:
         return f"{'9' * RECORD_LEN}".encode(ENCODING)
 
