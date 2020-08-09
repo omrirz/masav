@@ -15,6 +15,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Tuple, List, Union, Optional
 from functools import lru_cache
+import struct
 
 YYMMDD = Union[str, datetime]
 YYMM = Union[str, datetime]
@@ -199,17 +200,38 @@ class MasavPayingInstitute:
             if payment.amount <= 0:
                 continue
             payment_sum_fraction = f"{payment.amount % 1:2.02f}"[2:]
-            p = (
+
+            p1 = (
                 f"1{self.institute_code}{coin}{'0' * 6}"
                 f"{payment.bank_number}{payment.branch_number}"
                 f"{'0000'}{payment.account_number}"
-                f"0{payment.payee_id}{payment.payee_name}"
+                f"0{payment.payee_id}"
+            ).encode(ENCODING)
+
+            # This payee name magic is extended ascii used by Masav,
+            # where "א" is 128 "ב" is 129 and so on.
+            # It includes final form letters, אותיות סופיות,
+            # so ord("כ") is 1499 and ord("ך") is 1500.
+            # ord("א") is 1488 so we subtract 1360 and get 128 for "א".
+            # We do the same thing for any letter that its ord is,
+            # greater than or equal to ord("א"),
+            # so we don't mess up spaces etc.
+            chars = [
+                ord(c) - (ord("א") - 128) if ord("א") <= ord(c) else ord(c)
+                for c in payment.payee_name
+            ]
+            chars = [max(min(c, 255), 0) for c in chars]
+            # it turns out that Masav reads the name last byte first so we reverse it.
+            p2 = struct.pack(f"{len(chars)}B", *chars[::-1])
+
+            p3 = (
                 f"{int(payment.amount):011d}{payment_sum_fraction}"
                 f"{payment.payee_number}{payment.payed_for_from}"
                 f"{payment.payed_for_until}"
                 f"000{'006'}{'0' * 18}{' ' * 2}{NEWLINE}"
             ).encode(ENCODING)
-            payload.append(p)
+
+            payload.append(p1 + p2 + p3)
             payments_sum += payment.amount
             number_of_payments += 1
 
